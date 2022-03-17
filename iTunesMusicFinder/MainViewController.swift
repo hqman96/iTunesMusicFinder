@@ -8,10 +8,10 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
+    
     var albums = ["album 1","album 2","album 3","album 4"]
     var foundAlbums: [String]!
-   
+    
     @IBOutlet weak var albumSearchBar: UISearchBar!
     @IBOutlet weak var mainTableView: UITableView!
     
@@ -41,6 +41,12 @@ extension MainViewController: UISearchBarDelegate, UITableViewDelegate, UITableV
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let detailsVC = AlbumViewController.init()
+        present(detailsVC, animated: true, completion: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
