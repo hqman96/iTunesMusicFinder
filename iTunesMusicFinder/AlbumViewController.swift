@@ -16,10 +16,35 @@ class AlbumViewController: UIViewController {
         table.register(AlbumHeader.self, forHeaderFooterViewReuseIdentifier: "AlbumHeader")
         return table
     }()
-    private var tracks = ["track 1","track 2","track 3","track 4"]
+    private var tracks: [Track] = [] {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.tracklistTableView.reloadData()
+            }
+        }
+    }
+    var albumImage: UIImage? {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.tracklistTableView.reloadData()
+            }
+        }
+    }
+    let tracksUrl = "https://itunes.apple.com/lookup?entity=song&id="
+    let album: Album
+    
+    init(album: Album) {
+        self.album = album
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getAlbumImage()
+        loadTracks()
         view.addSubview(tracklistTableView)
         NSLayoutConstraint.activate([
             tracklistTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -30,12 +55,41 @@ class AlbumViewController: UIViewController {
         tracklistTableView.dataSource = self
         tracklistTableView.delegate = self
     }
-    
+    func getAlbumImage() {
+        if let imageURL = URL(string: album.artworkUrl100) {
+            let task = URLSession.shared.dataTask(with: imageURL) { data, response, error in
+                if let data = data {
+                    self.albumImage = UIImage.init(data: data)
+                }
+            }
+            task.resume()
+        }
+    }
+    func loadTracks() {
+        if let url = URL(string: "\(tracksUrl)\(album.collectionId)") {
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    let decoder = JSONDecoder()
+                    do {
+                        let trackData = try decoder.decode(TrackDataModel.self, from: data)
+                        self.tracks = trackData.results
+                        //In response to the url request, the first element is not a track and contains only the name of the artist
+                        self.tracks.removeFirst()
+                    }
+                    catch {
+                        print("error")
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
 }
 extension AlbumViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "AlbumHeader") as? AlbumHeader
+        header?.configure(albumName: album.albumName, artistName: album.artistName, albumImage: albumImage)
         return header
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -46,7 +100,7 @@ extension AlbumViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = tracks[indexPath.row]
+        cell.textLabel?.text = tracks[indexPath.row].trackName
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

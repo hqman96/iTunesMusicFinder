@@ -44,8 +44,8 @@ extension MainViewController: UISearchBarDelegate, UITableViewDelegate, UITableV
                         if let data = data {
                             let decoder = JSONDecoder()
                             do {
-                                let dataModel = try decoder.decode(AlbumDataModel.self, from: data)
-                                self.albums = dataModel.results
+                                let albumData = try decoder.decode(AlbumDataModel.self, from: data)
+                                self.albums = albumData.results
                             }
                             catch {
                                 print("error")
@@ -60,9 +60,11 @@ extension MainViewController: UISearchBarDelegate, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let detailsVC = AlbumViewController.init()
-        present(detailsVC, animated: true, completion: nil)
+        if albums.count > 0 {
+            let album = albums[indexPath.row]
+            let detailsVC = AlbumViewController.init(album: album)
+            present(detailsVC, animated: true, completion: nil)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     func numberOfSections(in tableView: UITableView) -> Int {
