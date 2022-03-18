@@ -13,6 +13,7 @@ class AlbumViewController: UIViewController {
         let table = UITableView(frame: .zero, style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(AlbumHeader.self, forHeaderFooterViewReuseIdentifier: "AlbumHeader")
         return table
     }()
     private var tracks = ["track 1","track 2","track 3","track 4"]
@@ -33,6 +34,13 @@ class AlbumViewController: UIViewController {
 }
 extension AlbumViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "AlbumHeader") as? AlbumHeader
+        return header
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tracks.count
     }
