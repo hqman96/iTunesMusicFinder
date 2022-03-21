@@ -27,6 +27,9 @@ class MainViewController: UIViewController {
         albumSearchBar.delegate = self
         mainTableView.delegate = self
         mainTableView.dataSource = self
+        
+        mainTableView.register(MainViewCell.self, forCellReuseIdentifier: MainViewCell.identifier)
+        mainTableView.register(FullScreenCell.self, forCellReuseIdentifier: FullScreenCell.identifier)
     }
 }
 
@@ -70,12 +73,33 @@ extension MainViewController: UISearchBarDelegate, UITableViewDelegate, UITableV
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        albums.count > 0 ? 35 : mainTableView.frame.height
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return albums.count
+        albums.count > 0 ? albums.count : 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
-        cell.textLabel?.text = albums[indexPath.row].albumName
-        return cell
+        if albums.count > 0 {
+            if indexPath.row < albums.count {
+                let cell = tableView.dequeueReusableCell(withIdentifier: MainViewCell.identifier) as! MainViewCell
+                let album = albums[indexPath.row]
+                cell.configure(with: album)
+                return cell
+            }
+            else {
+                return UITableViewCell()
+            }
+        }
+        else if albumSearchBar.text?.count == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: FullScreenCell.identifier) as! FullScreenCell
+            cell.mainLabel.text = "Введите запрос"
+            return cell
+        }
+        else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: FullScreenCell.identifier) as! FullScreenCell
+            cell.mainLabel.text = "Нет результатов"
+            return cell
+        }
     }
 }
