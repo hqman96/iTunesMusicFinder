@@ -100,7 +100,7 @@ extension AlbumViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = tracks[indexPath.row].trackName
+        cell.textLabel?.text = "\(String(describing: tracks[indexPath.row].artistName)) - \(tracks[indexPath.row].trackName ?? "Unnamed")"
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
