@@ -7,10 +7,11 @@
 
 import UIKit
 
-class FullScreenCell: UITableViewCell {
+final class FullScreenCell: UITableViewCell {
     static let identifier = "FullScreenCell"
+    
     let mainLabel: UILabel = {
-        var mainLabel = UILabel()
+        let mainLabel = UILabel()
         mainLabel.translatesAutoresizingMaskIntoConstraints = false
         mainLabel.textAlignment = .center
         mainLabel.font = .systemFont(ofSize: 20, weight: .semibold)

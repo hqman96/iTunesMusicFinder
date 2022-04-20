@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		669E780227E25B5500729028 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669E780127E25B5500729028 /* SceneDelegate.swift */; };
+		663DC619280635D500934691 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663DC618280635D500934691 /* SceneDelegate.swift */; };
 		669E780527E3414300729028 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669E780427E3414300729028 /* AlbumViewController.swift */; };
 		669E780827E4A3DD00729028 /* AlbumHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669E780727E4A3DD00729028 /* AlbumHeader.swift */; };
 		669E780C27E4AC6100729028 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669E780B27E4AC6100729028 /* Album.swift */; };
@@ -25,7 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		669E780127E25B5500729028 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = ../../../.Trash/SceneDelegate.swift; sourceTree = "<group>"; };
+		663DC618280635D500934691 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		669E780427E3414300729028 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		669E780727E4A3DD00729028 /* AlbumHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumHeader.swift; sourceTree = "<group>"; };
 		669E780B27E4AC6100729028 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
@@ -55,6 +55,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		663DC61D2806391F00934691 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				669E780B27E4AC6100729028 /* Album.swift */,
+				669E780E27E4AC8100729028 /* AlbumDataModel.swift */,
+				669E781127E4ACED00729028 /* Track.swift */,
+				669E781427E4AD2B00729028 /* TrackDataModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		663DC61E2806396800934691 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				669E780727E4A3DD00729028 /* AlbumHeader.swift */,
+				669E781827E521A700729028 /* MainViewCell.swift */,
+				669E781B27E5229F00729028 /* FullScreenCell.swift */,
+				66BAF3C927E11B4B00FC05EF /* Main.storyboard */,
+				66BAF3CE27E11B5300FC05EF /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		663DC61F2806397500934691 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				66BAF3C727E11B4B00FC05EF /* MainViewController.swift */,
+				669E780427E3414300729028 /* AlbumViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		663DC62028063A0800934691 /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				66BAF3C327E11B4B00FC05EF /* AppDelegate.swift */,
+				663DC618280635D500934691 /* SceneDelegate.swift */,
+				66BAF3CC27E11B5300FC05EF /* Assets.xcassets */,
+				66BAF3DC27E11DDA00FC05EF /* .gitignore */,
+			);
+			path = Supporting;
+			sourceTree = "<group>";
+		};
 		66BAF3B727E11B4B00FC05EF = {
 			isa = PBXGroup;
 			children = (
@@ -74,22 +117,11 @@
 		66BAF3C227E11B4B00FC05EF /* iTunesMusicFinder */ = {
 			isa = PBXGroup;
 			children = (
-				66BAF3C327E11B4B00FC05EF /* AppDelegate.swift */,
-				669E780127E25B5500729028 /* SceneDelegate.swift */,
-				66BAF3C727E11B4B00FC05EF /* MainViewController.swift */,
-				669E780727E4A3DD00729028 /* AlbumHeader.swift */,
-				669E780427E3414300729028 /* AlbumViewController.swift */,
-				669E781827E521A700729028 /* MainViewCell.swift */,
-				669E781B27E5229F00729028 /* FullScreenCell.swift */,
-				669E780B27E4AC6100729028 /* Album.swift */,
-				669E780E27E4AC8100729028 /* AlbumDataModel.swift */,
-				669E781127E4ACED00729028 /* Track.swift */,
-				669E781427E4AD2B00729028 /* TrackDataModel.swift */,
-				66BAF3C927E11B4B00FC05EF /* Main.storyboard */,
-				66BAF3CC27E11B5300FC05EF /* Assets.xcassets */,
-				66BAF3CE27E11B5300FC05EF /* LaunchScreen.storyboard */,
 				66BAF3D127E11B5300FC05EF /* Info.plist */,
-				66BAF3DC27E11DDA00FC05EF /* .gitignore */,
+				663DC62028063A0800934691 /* Supporting */,
+				663DC61E2806396800934691 /* View */,
+				663DC61F2806397500934691 /* ViewController */,
+				663DC61D2806391F00934691 /* Model */,
 			);
 			path = iTunesMusicFinder;
 			sourceTree = "<group>";
@@ -174,8 +206,8 @@
 				66BAF3C827E11B4B00FC05EF /* MainViewController.swift in Sources */,
 				66BAF3C427E11B4B00FC05EF /* AppDelegate.swift in Sources */,
 				669E781C27E5229F00729028 /* FullScreenCell.swift in Sources */,
-				669E780227E25B5500729028 /* SceneDelegate.swift in Sources */,
 				669E780C27E4AC6100729028 /* Album.swift in Sources */,
+				663DC619280635D500934691 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

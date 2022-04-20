@@ -7,8 +7,7 @@
 
 import UIKit
 
-class AlbumViewController: UIViewController {
-    
+final class AlbumViewController: UIViewController {
     private let tracklistTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -16,6 +15,7 @@ class AlbumViewController: UIViewController {
         table.register(AlbumHeader.self, forHeaderFooterViewReuseIdentifier: "AlbumHeader")
         return table
     }()
+    
     private var tracks: [Track] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -23,20 +23,23 @@ class AlbumViewController: UIViewController {
             }
         }
     }
-    var albumImage: UIImage? {
+    
+    private var albumImage: UIImage? {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.tracklistTableView.reloadData()
             }
         }
     }
-    let tracksUrl = "https://itunes.apple.com/lookup?entity=song&id="
-    let album: Album
     
+    private let tracksUrl = "https://itunes.apple.com/lookup?entity=song&id="
+    
+    private let album: Album
     init(album: Album) {
         self.album = album
         super.init(nibName: nil, bundle: nil)
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -55,6 +58,7 @@ class AlbumViewController: UIViewController {
         tracklistTableView.dataSource = self
         tracklistTableView.delegate = self
     }
+    
     func getAlbumImage() {
         if let imageURL = URL(string: album.artworkUrl100) {
             let task = URLSession.shared.dataTask(with: imageURL) { data, response, error in
@@ -65,6 +69,7 @@ class AlbumViewController: UIViewController {
             task.resume()
         }
     }
+    
     func loadTracks() {
         if let url = URL(string: "\(tracksUrl)\(album.collectionId)") {
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -85,24 +90,32 @@ class AlbumViewController: UIViewController {
         }
     }
 }
+
 extension AlbumViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "AlbumHeader") as? AlbumHeader
         header?.configure(albumName: album.albumName, artistName: album.artistName, albumImage: albumImage)
         return header
     }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return 375
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tracks.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = "\(String(describing: tracks[indexPath.row].artistName)) - \(tracks[indexPath.row].trackName ?? "Unnamed")"
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }

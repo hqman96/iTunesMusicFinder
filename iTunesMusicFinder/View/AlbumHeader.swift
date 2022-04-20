@@ -7,8 +7,7 @@
 
 import UIKit
 
-class AlbumHeader: UITableViewHeaderFooterView {
-    
+final class AlbumHeader: UITableViewHeaderFooterView {
     static let identifier = "AlbumHeader"
     
     private let albumImageView: UIImageView = {
@@ -20,6 +19,7 @@ class AlbumHeader: UITableViewHeaderFooterView {
         albumImageView.layer.masksToBounds = true
         return albumImageView
     }()
+    
     private let albumNameLabel: UILabel = {
         let albumNameLabel = UILabel()
         albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -29,6 +29,7 @@ class AlbumHeader: UITableViewHeaderFooterView {
         albumNameLabel.textAlignment = .center
         return albumNameLabel
     }()
+    
     private let artistNameLabel: UILabel = {
         let artistNameLabel = UILabel()
         artistNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -47,6 +48,7 @@ class AlbumHeader: UITableViewHeaderFooterView {
         contentView.backgroundColor = UIColor(red: 140 / 255, green: 255 / 255, blue: 255 / 255, alpha: 1.0)
         addConstraints()
     }
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
@@ -56,6 +58,7 @@ class AlbumHeader: UITableViewHeaderFooterView {
         artistNameLabel.text = artistName
         albumImageView.image = albumImage
     }
+    
     private func addConstraints() {
         NSLayoutConstraint.activate([
             albumImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
